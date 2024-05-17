@@ -15,7 +15,13 @@ const userSchema = new mongoose.Schema({
     required: [true, "Please enter a password"],
     minlength: [6, "Minimum password length is 6 characters"],
   },
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user",
+  },
 });
+// userSchema.path("role").options.enum;
 
 // fire a function before doc saved to db
 userSchema.pre("save", async function (next) {
@@ -36,6 +42,7 @@ userSchema.statics.login = async function (email, password) {
   }
   throw Error("incorrect email");
 };
+userSchema.path("role").options.enum;
 
 const User = mongoose.model("user", userSchema);
 

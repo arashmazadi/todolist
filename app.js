@@ -33,8 +33,8 @@ mongoose
   });
 
 //routes
+app.get("*", checkUser);
 app.use("/api/todos", todosRoutes);
 app.use(authRoutes);
 app.get("/", (req, res) => res.render("home", res.locals));
 app.get("/smoothies", requireAuth, (req, res) => res.render("smoothies"));
-app.get("*", checkUser);

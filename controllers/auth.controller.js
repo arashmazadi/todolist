@@ -53,13 +53,15 @@ const login_get = (req, res) => {
 };
 
 const signup_post = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, role = undefined } = req.body;
 
   try {
-    const user = await User.create({ email, password });
+    const user = await User.create({ email, password, role });
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(201).json({ user: user._id });
+    res
+      .status(201)
+      .json({ user: user._id, email: user.email, role: user.role });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
