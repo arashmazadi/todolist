@@ -11,6 +11,10 @@ const requireAuth = (req, res, next) => {
         res.redirect("/login");
       } else {
         console.log(decodedToken);
+        if (decodedToken.role !== "admin") {
+          res.status(403).send();
+          return;
+        }
         next();
       }
     });
